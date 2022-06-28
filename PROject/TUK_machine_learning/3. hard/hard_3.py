@@ -33,6 +33,14 @@ mCard = int(condition.split(" ")[1])
 
 cardList = list(map(int, input("카드s 입력: ").split(" "))) # 22.06.29 | 카드들을 입력받음. 박세연님의 map() 함수를 활용함.
 
+if nCard is not len(cardList): # 22.06.29 주석 추가 | 카드수 매칭
+    print("CardList len error")
+    quit()
+for i in range(len(cardList)): # 22.06.29 주석추가 | 카드의 수 크기 제한
+    if cardList[i] <= 0 or cardList[i] > 100000:
+        print("CardList range error")
+        quit()
+
 cardSum(mCard) # 22.06.29 주석추가 | 리스트 업 함수.
 
 # 22.06.29 주석추가 | 근접 지수 중, 양수, 음수를 나누어 가장 절대값이 낮은
