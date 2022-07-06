@@ -1,0 +1,354 @@
+
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	
+
+    
+	<!-- Basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>학습하기 | 도로교통공단 이러닝센터</title>
+
+    <meta name="keywords" content="도로교통공단, 동승보호자,통학버스, 교통안전담당교사, 안전운전, 교통안전교육, 도로교통, 특별교통안전교육, 긴급자동차, 긴급자동차안전교육, 교통안전, 교통안전사회교육, 동승보호자교육, 인솔교사교육, 인솔교사, 어린이체험관, 체험관예약, 이러닝센터, 도로교통공단이러닝센터, 초등학교안전교사, 중학교안전교사, 고등학교안전교사, 교통안전교재, 교육자료실, 어린이통학버스, 통학버스, 어린이교통안전" />
+    <meta name="description" content="도로교통공단 이러닝센터는 온라인 교통안전교육 예약 및 수강 교통안전 교육자료를 PC 및 모바일을 통해 보급할 수 있는 홈페이지입니다.">
+    <meta name="author" content="도로교통공단">
+    <meta name="naver-site-verification" content="cbb0924c4c1e0269879a0bedab7522472f14c56e"/>
+
+    <!-- Favicon -->
+	<link rel="shortcut icon" href="/resources/favicon.ico" type="image/x-icon" />
+	<line rel="icon" href="/resources/favicon.ico" type="image/x-icon" />
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/resources/home/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    
+	<link rel="stylesheet" href="/resources/home/vendor/swiper/css/swiper.min.css">
+
+    <link href="/resources/home/css/custom.css" rel="stylesheet" type="text/css">
+    <link href="/resources/home/css/custom2.css" rel="stylesheet" type="text/css">
+    <link href="/resources/home/css/custom3.css" rel="stylesheet" type="text/css">
+
+    <script src="/resources/home/vendor/jquery/jquery.min.js"></script>
+    <script src="/resources/home/js/jquery-ui-effect.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="/resources/home/vendor/bootstrap/js/bootstrap.min.js"></script>
+	
+	<script src="/resources/home/vendor/swiper/js/swiper.min.js"></script>
+
+    <script src="/resources/common/commonCustom.js"></script>
+    <script src="/resources/home/js/custom.js"></script>
+    
+	<link href="/resources/home/fonts/material-icons.css" rel="stylesheet" type="text/css">
+	<link href="/resources/home/fonts/notosanskr.css" rel="stylesheet" type="text/css">
+	<link href="/resources/home/css/common.css" rel="stylesheet" type="text/css">
+	<script src="/resources/home/js/slick.min.js"></script><!-- 20201221 : slick 추가 -->
+	<script src="/resources/home/js/design.js"></script>
+	<script src="/resources/home/js/Chart.min.js"></script>
+    
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="/resources/common/html5shiv/html5shiv.js"></script>
+        <script src="/resources/common/respond.js/respond.min.js"></script>
+    <![endif]-->
+
+    <script>
+    
+    $(document).ready(function(){
+    	$(document).on("click", "#btn-view", function(){
+    		var url = $(this).attr("data-url").replace('{selectId}', $(this).attr("data-id")).trim();
+    		fn_searchForm_submit(url);
+    	});
+    	
+    	$(document).on("click", "#btn-list", function(){
+    		var url = $(this).attr("data-url").trim();
+    		fn_searchForm_submit(url);
+    	});
+    });
+    
+    function fn_searchForm_submit(url){
+    	$("#searchForm").attr("action", url);
+		$("#searchForm").submit();
+    }
+    
+    /* pagination 페이지 링크 function */
+    function fn_link_page(pageNo){
+        document.searchForm.pageIndex.value = pageNo;
+        document.searchForm.method = "POST";
+        document.searchForm.submit();
+    }
+    </script>
+
+</head>
+<body>
+	
+
+
+
+
+
+
+
+
+
+    
+        
+    
+
+    
+
+    
+    
+    
+
+<div class="container container-classroom container-classroom-content">
+    <div class="classroom-top">
+        <div class="course-name classroom-color">
+            <span class="classroom-bd">과정명</span><span>&nbsp;어린이 통학버스 안전교육</span>
+        </div>
+    </div>
+
+    
+
+    
+        <div class="studyTitleBox">
+            <div class="studyPage">1<span>/</span>8</div>
+            
+            <div class="classroom-color studyTitle">
+                <span class="studyChapterTitle">01. 어린이의 행동특성<span>-</span></span>
+                <span class="studyPageTitle">Intro</span>
+            </div>
+            
+            <div class="classroom-buttons" style="margin-left:930px; margin-top:-40px;">
+	        	<button type="button" style="margin:0 3px;" class="button button-green" id="btnPrevPage2" onclick="fn_prev_page();">이전페이지</button>
+	        	<button type="button" style="margin:0 3px;" class="button" id="btnFullScreen2" onclick="fn_full_screen();">전체화면</button>
+	        	<button type="button" style="margin:0 3px;" class="button button-green" id="btnNextPage2" onclick="fn_next_page();">다음페이지</button>
+	        </div>
+        </div>
+        <div>
+            <div id="studyContent" style="padding-bottom: 56.25%; border: 1px solid green; ">
+                <iframe allowfullscreen="allowfullscreen" name="studyContentFrame" id="studyContentFrame" title="학습 콘텐츠" src="/content/4/01/01.html"></iframe>
+            </div>
+        </div>
+        
+        <div class="b_box">
+	        <div class="left">
+		        <div class="classroom-buttons">
+		        	<button type="button" style="margin:0 3px;" class="button button-green" id="btnPrevPage" onclick="fn_prev_page();">이전페이지</button>
+		        	<button type="button" style="margin:0 3px;" class="button" id="btnFullScreen" onclick="fn_full_screen();">전체화면</button>
+		        	<button type="button" style="margin:0 3px;" class="button button-green" id="btnNextPage" onclick="fn_next_page();">다음페이지</button>
+		        </div>
+	        </div>
+        
+        	<div class="right">
+        		<div class="classroom-buttons">
+            		<a href="javascript:closeBtn();" class="button button-big" target='_self'>닫기</a>
+        		</div>
+        	</div>
+        </div>
+        
+        <input type="hidden" id="pageMax" value="8" />
+        <input type="hidden" id="pageIdx" value="0" />
+        <input type="hidden" id="pageLast" value="0" />
+        <input type="hidden" id="completeYn" value="N" />
+        <form name="studyForm" method="post" target='_self' action="study">
+            <input type="hidden" name="action" id="action"/>
+            <input type="hidden" name="moveToParagraph"/>
+            <input type="hidden" name="cuid" id="cuid" value="710335"/>
+            <input type="hidden" name="chapter" id="chapter" value="01"/>
+            <input type="hidden" name="paragraph" id="paragraph" value="01"/>
+        </form>
+    
+</div>
+
+<div id="modalPortal">
+	<div class="modal">
+		<div class="modal-content-wrapper max-height-full">
+			<div class="modal-title"></div>
+			<div class="modal-body-wrapper max-height-full" data-max-height-offset="16"></div>
+		</div>
+		<button class="modal-close-button"></button>
+           <div class="modal-buttons"></div>
+	</div>
+	<div class="bg"></div>
+</div>
+
+<div class="modal modal-simple" id="modalAlert">
+	<div class="modal-title"></div>
+	<div class="modal-body"></div>
+</div>
+
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	
+	$(document).ready(function(){
+		if(fn_is_completed_page()){
+			$("#btnPrevPage").show();
+			$("#btnNextPage").show();
+			$("#btnPrevPage2").show();
+			$("#btnNextPage2").show();
+		}else{
+			$("#btnPrevPage").hide();
+			$("#btnNextPage").hide();
+			$("#btnPrevPage2").hide();
+			$("#btnNextPage2").hide();
+		}
+		
+		$(window).bind("beforeunload", function (e){
+			//event.returnValue = "창응 닫으시겠습니까?";
+			if((navigator.appName == 'Netscape' && agent.indexOf('trident') != -1) || (agent.indexOf("msie") != -1)) { // ie인 경우
+				
+			} else { //ie가 아닌 경우
+				closeBtn();
+			}
+		});
+	});
+    var flag = false;
+    function fn_save_progress() {
+        //if (flag) return;
+        $.ajax({
+            url: '/home/classroom/ajaxSaveProgress',
+            type: 'POST',
+            data: $(document.studyForm).serialize(),
+            success: function (data) {
+                if (data.success) {
+                    flag = true;
+                    fn_is_completed_page();
+                    $("#btnPrevPage").show();
+    				$("#btnNextPage").show();
+                    $("#btnPrevPage2").show();
+    				$("#btnNextPage2").show();
+                } else {
+                    modalAlert("진도처리 중 문제가 발행하였습니다.", function () {
+                        location.reload();
+                    }, "에러");
+                }
+            }
+        })
+    }
+
+    function fn_next_page() {
+        var pageMax = parseInt($("#pageMax").val());
+        var pageIdx = parseInt($("#pageIdx").val());
+
+        if (fn_is_completed_page()) {
+            if (pageIdx+1 < pageMax) {
+                document.studyForm.action.value = 'NEXT';
+                document.studyForm.submit();
+                return true;
+            } else {
+                modalAlert("마지막 페이지 입니다.");
+                return false;
+            }
+        } else {
+            modalAlert("학습을 완료해주세요.")
+            return false;
+        }
+    }
+
+    function fn_prev_page() {
+        var pageIdx = parseInt($("#pageIdx").val());
+        if (pageIdx > 0) {
+            document.studyForm.action.value = 'PREV';
+            document.studyForm.submit();
+            return true;
+        } else {
+            modalAlert("첫 페이지 입니다.")
+            return false;
+        }
+
+    }
+
+    function fn_move_to_page(paragraph) {
+        var moveToPage = parseInt(paragraph, 10);
+        var lastPage = parseInt($("#pageLast").val(), 10);
+        if (flag && moveToPage == lastPage || moveToPage < lastPage ) {
+            document.studyForm.action.value = 'MOVE_TO';
+            document.studyForm.moveToParagraph.value = paragraph;
+            document.studyForm.submit();
+            return true;
+        } else {
+            modalAlert("이전 페이지 학습 완료 후 이동 가능합니다.")
+            return false;
+        }
+    }
+    
+    function fn_full_screen(){
+    	obj = document.getElementById("studyContentFrame");
+        if (obj.requestFullscreen) {
+            obj.requestFullscreen();
+        } else if (obj.msRequestFullscreen) {
+            obj.msRequestFullscreen();
+        } else if (obj.mozRequestFullScreen) {
+            obj.mozRequestFullScreen();
+        } else if (obj.webkitRequestFullscreen) {
+            obj.webkitRequestFullscreen();
+        }
+    }
+    
+    function fn_full_screen_close(){
+    	if (document.exitFullscreen) {
+            document.exitFullscreen();
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen();
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen();
+        } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen();
+        }
+    }
+
+    function fn_is_completed_page() {
+        return $("#completeYn").val() == "Y" || flag || parseInt($("#pageIdx").val(), 10) < parseInt($("#pageLast").val(), 10);
+    }
+
+    function fn_alert(msg, callback) {
+        modalAlert(msg, function () {
+            if (callback) {
+                callback();
+            }
+            closeModal();
+        })
+    }
+    
+    function closeBtn() {
+    	var cuid = opener.parent.$("#id").val();
+    	opener.parent.document.location.href = "/home/mypage/" + cuid + "/studyIndex";
+    	window.self.close();
+    }
+
+    $(function () {
+        // Error 처리
+        var msg = $("#studyErrorMessage").val();
+        if (msg == "TOO_EARLY") {
+            modalAlert("이전 차시 학습을 진행해야 다음 학습이 가능합니다.", function() {
+                //location.replace("curriculum");
+                window.self.close();
+            });
+        } else if (msg == "CHAPTER_NOT_FOUND") {
+            modalAlert("차시정보를 찾을 수 없습니다", function() {
+                //location.replace("curriculum");
+            	window.self.close();
+            });
+        }
+
+        setTimeout(keepSession, 60000 * 17);
+        function keepSession() {
+            $.ajax({
+                url: '/home/common/blank',
+                complete: function() {
+                    setTimeout(keepSession, 60000 * 17);
+                }
+            })
+        }
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,1923 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  
+    <meta http-equiv="Access-Control-Allow-Origin" content="https://childsafe.kohi.or.kr">
+  
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=no">
+    <link href="/resources/study/images/ci.ico" type="image/x-icon" rel="shortcut icon">
+    <link rel="stylesheet" href="/resources/study/css/reset.css?ver=1.2">
+    <link rel="stylesheet" href="/resources/study/css/style.css?ver=1.2">
+    <script src="/resources/study/js/jquery-1.12.4.min.js?ver=1.2"></script>
+    
+    
+    
+    <script src="/resources/study/js/ui.js?ver=1.2"></script>
+    
+    <script type="text/javascript">
+        var playerUrlPath = "https://edu.kohi.or.kr/pt";
+        var playerRemoteCallUrlPath = "https://edu.kohi.or.kr/pt";
+        window._pageUrlHeadPreset = playerUrlPath;
+        window._uspx_ = true;
+    </script>
+    <script src="/resources/study/js/study-init.js?ver=1.4"></script>
+    <script src="/resources/study/js/study-url.js?ver=1.3"></script>
+    <style type="text/css">
+    </style>
+    <script type="text/javascript">
+
+        var isSaveProgress = false; 
+
+        //history.pushState({}, "kohi_cyber_e_learning", "kohi_P589369c3-1ab4-490f-ad34-8a143922a825.I.do");
+        var frameWidth = 0;
+        var frameHeight = 64;
+
+        var tmp_rp1 = 4;
+        var durationTime = 0;
+        var canPlayCall = 0;
+        var playId;
+        var loadBoolean = false;
+        var timerId = 0;
+
+        function resizePopupF() {
+            if(!false) {
+                resizePopup();
+            }
+        }
+
+        window.eduPC = function(name, value) {
+
+            
+            var pp = window.opener;
+            try {
+                var eduStudy = (pp == null) ? null : pp.study;
+                if( eduStudy && eduStudy.eduPopupConnector) {
+                    eduStudy.eduPopupConnector(window, name, value);
+                }
+            } catch(e) { }
+            
+        };
+
+        $("body").ready(function() {
+
+            
+            document.domain = "kohi.or.kr";
+            
+
+            window.addEventListener("message", receiveMessage, false);
+
+            var mobileIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i) == null ? false : true;
+            var hasMovie = true;
+            window.eduPC("load", hasMovie);
+
+            ocsInitDomain(playerUrlPath,playerUrlPath);
+
+            if(hasMovie) {
+                $("#paging_prev").click(function() {
+                    
+                          
+                          
+                               if(videojs != null) {
+                                   videojs("video").pause();
+                               }
+                               moveTo(1,2);
+                          
+                    
+
+                });
+
+                $("#paging_next").click(function() {
+
+                    
+                          moveTo(1,4);
+                    
+                });
+
+                $("#btn_vod_prev").click(function() {
+                    $("#paging_prev").trigger('click');
+                });
+
+                $("#btn_vod_next").click(function() {
+                    $("#paging_next").trigger('click');
+                });
+
+
+            } else {
+                
+                $("div.bottom a[class^=btn0]:not([class=btn01])").addClass("nouse").parent().addClass("nouse");
+                //$("div.paging_area button").unbind("click");
+                $("div.paging_area button").bind("click", function () {
+                    alert("학습할 영상이 존재하지 않습니다.\n나중에 다시 시도해주세요.");
+                    //                     alert("첫 페이지입니다.");
+                    closePopup();
+                });
+            }
+
+            $(window).on('beforeunload', function(e) {
+
+                    var hasMovie = true;
+                    window.eduPC("unload", hasMovie);
+                    $(window).unbind();
+
+                    clearInterval(window.on_lawrawlowrowwow);
+
+                    if(!isSaveProgress && hasMovie) { 
+                        window.on_work_time = -1;
+                        window.on_work_save = false;   // 강제호출용
+                        window.on_save_result = saveProgress(null);
+                    }
+                    return undefined;
+
+            });
+
+            videojs('video').on('loadstart', function () {
+                console.info('loadstart =======> loadstart');
+
+                playId = setTimeout( function(){ canPlayCheck();},3200);
+                console.info('playId =======> playId');
+            });
+
+            videojs('video').on('error', function () {
+                console.info('error =======> error');
+            });
+
+            videojs('video').on('loadedmetadata', function () {
+                console.info('loadedmetadata =======> ' + mobileIOS);
+                if(mobileIOS){
+                    console.info('loadCanPlay =======> loadCanPlay');
+                    loadCanPlay();
+                }
+            });
+
+            videojs('video').on('loadeddata', function () {
+                console.info('loadeddata =======> loadeddata');
+            });
+
+            videojs('video').on('canplay', function () {
+                console.info('canplay =======> canplay');
+                if(!mobileIOS){
+                    console.info('not mobileIOS =======> ' + mobileIOS);
+                    loadCanPlay();
+                }
+            });
+
+            videojs('video').on('progress', function () {
+                console.info('progress =======>');
+                setTimeout( function(){
+                    //그로그래스바 체크 여부 확인 후 강제 시작 코드 추가 예정
+                    console.info('.vjs-load_container visible =======>' + $('.vjs-load_container').is(':visible'));
+                    if($('.vjs-load_container').is(':visible')){
+                        console.info('progress bar hide !!!!!');
+                        loadCanPlay();
+                    }
+                },3000);
+            });
+
+            videojs('video').on('ended', function () {
+                console.info('ended =======> ended');
+                $("#btn_vod_prev").show();
+                $("#btn_vod_next").show();
+
+                var hasStarted = videojs('video').hasStarted();
+
+
+                if(hasStarted){
+                    isSaveProgress = false;
+                    _lrpt_t_t2();
+                    clearInterval(window.on_lawrawlowrowwow);
+                }
+
+            });
+
+
+            var firstPlay = 0;
+            videojs('video').on('firstplay', function () {
+                console.info('firstplay =======> ' + firstPlay);
+                if(firstPlay==0) {
+                    console.info('firstplay =======> ' + firstPlay);
+
+                    var hasStarted = videojs('video').hasStarted();
+
+                    if(hasStarted){
+                        console.info('hasStarted =======> ' + hasStarted);
+                        window.play_started = true;
+                        window.on_work_time = 0;
+                        _lrpt_t_t();
+                    }
+
+                    firstPlay++;
+                }
+
+            });
+
+
+            videojs('video').on('play', function () {
+                console.info('play =======> play');
+            });
+
+            videojs('video').on('pause', function () {
+                console.info('pause =======> pause');
+                $("#btn_vod_prev").show();
+                $("#btn_vod_next").show();
+
+            });
+
+            $('.vjs-big-play-button').on('click',function() {
+                $('.vjs-poster').hide();
+            });
+
+            $('.vjs-poster').on('click',function() {
+                $('.vjs-poster').hide();
+            });
+
+            $('.vjs-error-display').on('click',function() {
+                if(videojs != null) {
+                    videojs("video").pause();
+                }
+
+                alert("학습창이 닫힙니다.(CODE:6)");
+                window.close();
+            });
+
+            timerId = setInterval(function(){sessionCheck(true);}, 20000);
+
+        });
+
+
+        study.ocsSaveInitUrlGCOUP("222001095", "0092901", "", "1", "3", "U20180821002055");
+        //ocsDomainInit(domain);
+        var bookmarks = [
+        
+        ];
+
+        ocsStudyDataInit("17", bookmarks.join(','), true, "");
+
+        function rtprgsApplcAtByProgressSave(){
+
+            
+        }
+
+        function resizePopupR() {
+            if(!false) {
+                resizePopup();
+            }
+        }
+
+        function resizePopup() {
+            if(!false) {
+                study.resizePopup();
+            }
+        }
+
+        function openPage(pp) {
+            saveProgress(function () {
+                _moveTo(1, pp);
+            });
+        }
+
+        function moveTo(untseq, page) {
+            
+                if(zossktanqm(untseq, page)) { return; }
+            
+                saveProgress(function () {
+                    _moveTo(untseq, page);
+                });
+
+        }
+
+
+        function _moveTo(uu, pp, sec) {
+                $('#q_type').val('move');
+            
+                if(zossktanqm(uu,pp)) {
+                    return;
+                }
+            
+                if(sec === undefined) {
+                    study.moveTo({untseqNo:uu, pgeNo:pp});
+                } else {
+                    study.moveTo({untseqNo: uu, pgeNo: pp, posForceStart: sec});
+                }
+        }
+
+        function getProgress() {
+            if(!videojs) {
+                return null;
+            }
+            var vjs = videojs("video");
+            var currentSecondF = vjs.currentTime();
+            var durationF = vjs.duration() - 0.001;
+            var resolution = 100.0;
+            if(durationF <= 0.0) {
+                return true;
+            }
+            var progress = Math.min(Math.max( parseInt((currentSecondF / durationF) * resolution), 0.0), resolution);
+            return progress;
+        }
+
+        function checkIsCompleted(v) {
+            // getProgress 에 퍼센테이지 넣고, 90% 저장 넣고, 페이지 인덱스 이동도 처리(값 추가)하고 ... 음...
+            
+                if(!videojs) {
+                    return true;
+                }   // 로딩 전... 음...
+                var vjs = videojs("video");
+                var currentSecondF = vjs.currentTime();
+                var durationF = vjs.duration();
+                var dist = durationF - currentSecondF;
+                if(getProgress() < 90.0) {
+                    return false;
+                }
+            
+                return true;
+        }
+
+        var pageMapScript = {"untseq":1, "pgeNo":3 , "1": true, "3": true, "4": true, "5": true, "6": true, "7": true, "8": true, "9": true, "10": true, "2": true };
+
+        function zossktanqm(uu,pp, useAlert) {
+            
+
+            
+
+            //console.info("zossktanqm " + uu +","+pp+", ua:" +useAlert);
+            var seeking = false;
+
+            var current_uu = 1;
+            var current_pp = 3;
+            var showalert = (useAlert === true || useAlert === undefined);
+
+            var smrf = function(failed, m) {
+
+                //세션 끊긴 상태이면 동영상 플레이 정지 처리 2021.02.23 김동훈
+                if(videojs != null) {
+                    videojs("video").pause();
+                }
+
+                if(failed && showalert) {
+                    alert(m);
+                }
+                //console.info("smrf f=" + failed);
+                return failed;
+            };
+
+            var sp = "" + pp;
+            var nextPageInfo = pageMapScript[sp];
+            if(nextPageInfo === undefined) { nextPageInfo = false; }
+
+            var pageCompleted = nextPageInfo;
+            var thisCompleted = checkIsCompleted();
+            var thisCompletedPage = checkIsCompleted() || pageCompleted;
+
+            if(current_uu != uu) {
+                
+                if (current_uu == (uu + 1)) {
+                    return smrf((!seeking && !thisCompleted), '학습이 종료되어야 다음 차시로의 이동이 가능합니다.');
+                } else if (current_uu < uu) {
+                    // 2차시 이상 차이...
+                    return smrf(!thisCompleted, '학습이 종료되어야 해당 차시로의 이동이 가능합니다.');
+                }
+                return false;   // 이전 차시 이동은 가능
+            } else {
+                // untseqNo가 동일
+                if(pp == (current_pp + 1)) {
+                    
+                    if(pageMapScript[3]) {
+                        thisCompletedPage = true;
+                    }
+                    return smrf(!(thisCompletedPage), "학습이 종료되어야 다음 페이지로의 이동이 가능합니다.");
+                } else if(pp < current_pp) {
+                    return false;   // 가능
+                } else if(pp > current_pp) {
+                    var passPage = true;
+                    for(var i = (current_pp + 1); i <= pp; i++) {
+                        var isCompletePage = pageMapScript[i];
+                        
+                        if(isCompletePage === undefined) {
+                            passPage = false;
+                            break;
+                        }
+                    }
+                    return smrf(!passPage, "해당 페이지로의 이동이 불가능합니다.");
+                }
+                return false;
+            }
+            
+            return false;
+        }
+
+
+        function goBMK(code) {
+            // "001_64"
+            var arr = bmkToArr(code);
+            var page = arr[0];
+            var sec = arr[1];
+
+            // move to bmk
+            if(page == 3) {
+                // 초 이동
+                if(videojs) {
+                    var vv = videojs("video");
+                    if(vv) {
+                        vv.currentTime(sec);
+                    }
+                }
+            } else {
+                saveProgress(function () {
+                    _moveTo(1, page, sec);
+                });
+            }
+        }
+
+        function addBMK(sec) {
+            if(sec == null) {
+                try {
+                    var currF = videojs("video").currentTime();
+                    var curr = parseInt(currF);
+                    sec = curr;
+                } catch(e) { return; }
+            }
+
+            var page = ("3").padStart(3, "0");
+            var nSec = parseInt(sec);
+
+            var code = page + "_" + nSec;
+
+            for(var i=0;i<bookmarks.length;i++) {
+                var vv = bookmarks[i];
+                if(vv == code) {
+                    // exists
+                    alert('이미 존재하는 북마크입니다.');
+                    return;
+                }
+            }
+            if(bookmarks.length >= 10) {
+                alert('북마크는 차시별 최대 10개까지 가능합니다.');
+                return;
+            }
+
+            bookmarks.push(code);
+            bookmarks.sort();
+            var bmktxt = bookmarks.join(',');
+
+            var cc = code;
+            
+            study.ocsSaveBookmark(bmktxt, function(ss, rr) {
+                if(!ss) { return; }
+            });
+            
+            reloadBMKUI();
+        }
+
+        function removeBMK(val) {
+            //var currF = videojs("video").currentTime();
+            //var curr = parseInt(currF);
+            var vv = (val == null) ? "" : val;
+            var changed = false;
+            for (var i = 0; i < bookmarks.length; i++) {
+                var code = bookmarks[i];
+
+                var arr = bmkToArr(code);
+                var page = arr[0];
+                var sec = arr[1];
+                if (vv != "" && vv == code) {
+                    //console.info("remove bmk : " + code);
+                    const pos = bookmarks.indexOf(code);
+                    if (pos >= 0) {
+                        bookmarks.splice(pos, 1);
+                        changed = true;
+                        break;
+                    }
+                }
+            }
+            
+            if (changed) {
+                study.ocsSaveBookmark(bookmarks.join(','), function () { });
+                reloadBMKUI();
+            }
+            
+
+            //웹접근성
+            var lastindex;
+
+            $(".btn_remove").each(function(index, obj){
+                lastindex = index;
+            })
+
+            if(lastindex>0){
+                $(".btn_remove").eq(0).focus();
+            } else {
+                $(".btn_add").focus();
+            }
+        }
+
+        function bmkToArr(bmk) {
+            var tmp = bmk + "_0_0_;";
+            var arr = tmp.split('_');
+            var page = parseInt(arr[0]);
+            var sec = parseInt(arr[1]);
+            return [page, sec];
+        }
+
+        function secFormatted(seconds) {
+            seconds = seconds < 0 ? 0 : seconds;
+            if(seconds < 60) {
+                return "00:" + ("" + seconds).padStart(2, "0");
+            }
+            var s = Math.floor(seconds % 60);
+            var m = Math.floor(seconds / 60 % 60);
+            var h = Math.floor(seconds / 3600);
+            var result = (""+m).padStart(2,'0') + ":" + (""+s).padStart(2,'0');
+            if(h > 0) {
+                result = ("" + h) + ":" + result;
+            }
+            return result;
+        }
+
+
+        function reloadBMKUI() {
+            // bmk_dummy
+            $("#bookmark_ul .bmk_preset").remove();
+
+            //console.info(bookmarks);
+            var pp = $("#bookmark_ul");
+            pp.html("");
+
+            for (var i = 0; i < bookmarks.length; i++) {
+                var bb = bookmarks[i];
+                var bar = bmkToArr(bb);
+                var sec = bar[1];
+                var humanSec = secFormatted(sec);
+
+
+                //console.info(bb + " = " + bar[0] + ", " + humanSec);
+                // var hh = $("#bookmark_dummy").html();
+                // hh = hh.replace(/(\[0\])/g, bar[0]);
+                // hh = hh.replace(/(\[00:00\])/g, humanSec);
+
+
+                //var ele = $(hh);
+                var ele = $("#bookmark_dummy").clone();
+                ele.attr("id", null);
+
+                var ec = ele.children(0);
+                ec.attr("bmk", bb);
+                ec.find('.bookmark_page_value').text(bar[0]);
+                ec.find('.bookmark_page_time').text(humanSec);
+                ec.find('.btn_remove').text(humanSec);
+                window.lala = ec;
+                ec.attr('id', null);
+
+                pp.append(ec);
+            }
+        }
+
+        window.on_work_save = false;
+        window.on_full_time = 15;
+        window.on_work_time = window.on_full_time;
+        window.on_lawrawlowrowwow = null;
+        window.on_reset_time = function() {
+            window.on_full_time = 15;
+            window.on_work_time = window.on_full_time;
+        };
+
+        window.on_reset_time();
+
+        function saveProgress(func) {
+
+            
+                var hasMovie = true;
+
+                if(!hasMovie) {
+                   if(func) {
+                       func();
+                   }
+                   return;
+                }
+
+                
+                //console.log("2222222220 = " + Math.floor($('#q_posStart').val()));
+                //console.log("2222222221 = " + Math.floor(videojs("video").duration()));
+                if(pageMapScript[3] && Math.floor($('#q_posStart').val()) >= Math.floor(videojs("video").duration())) {
+                    //console.log("2222222222 = ");
+                    if(func){
+                        //console.log("2222222223 = " +func);
+                        func();
+                    }
+                    return true;
+                }
+
+                if(!window.play_started && func != null) {
+                    if((func.toString()).indexOf("move") < 0){
+                        return;
+                    }
+                }
+
+                var time = videojs('video').currentTime();
+                var old = gn_oldTimeP;
+
+                gn_oldTime = Math.max(gn_oldTime, time);
+
+                if(window.on_work_save) {
+
+                    func();
+                    window.on_work_time = 1;
+
+                    return true;
+                }
+
+                window.on_work_save = true;
+
+                var ff = func;
+
+                //진도 저장 및 페이지 이동
+                if(!isSaveProgress || (ff.toString()).indexOf("move") > -1) {
+                    ocsSaveProgress(gn_oldTime, function() {
+                        isSaveProgress = true;
+                        window.on_work_time = window.on_full_time;
+                        window.on_work_save = false;
+
+                        if(ff) {
+                            ff();
+                        }
+                    });
+                }
+            
+
+            return true;
+
+        }
+
+        var cnt = 0;
+
+        function _lrpt_t_t() {
+
+                if("Y" == "N"){
+                    if(!isSaveProgress){
+
+                        rtprgsApplcAtByProgressSave();
+                        isSaveProgress = true;
+                        return;
+                    }
+
+                    return;
+                }
+
+            
+
+                if(window.on_work_save) {
+                    return;
+                }
+
+                if(window.on_work_time < 0) {
+                    return;
+                }
+
+                //15sec -> 0sec
+                if(window.on_work_time > 0) {
+                    --window.on_work_time;
+                }
+
+                if(window.on_work_time > 0) {
+                    return;
+                }
+
+                if(getProgress() == 100.0) {
+                    return;
+                }
+
+                var res = saveProgress(function () {
+                    isSaveProgress = false;
+                });
+
+                if(res == false) {
+                    window.on_work_time++;
+                }
+
+            
+        };
+
+        
+        function _lrpt_t_t2() {
+
+            sessionCheck(false);
+
+         
+            if(!isSaveProgress){
+                
+                study.ocsUpdateProgressData(parseInt(durationTime), 10000);
+                study.ocsSaveAll();
+                closeSessionCheck();
+                isSaveProgress = true;
+            }
+         
+
+        };
+
+        function canPlayCheck(){
+            if(!loadBoolean){
+                loadCanPlay();
+                loadBoolean = true;
+            }
+
+            clearTimeout(playId);
+        }
+
+
+//        var canplayCnt = 0;
+
+        function loadCanPlay() {
+            //console.info('.vjs-load_container 1=======> ' + $('.vjs-load_container').is(':visible'));
+            $('.vjs-load_container').hide();
+            //console.info('.vjs-load_container 2=======> ' + $('.vjs-load_container').is(':visible'));
+
+            durationTime = Math.floor(videojs('video').duration());
+
+            var autoPlay = "1";
+
+/* 2022.5.13 웹접근성 자동플레이
+            if("1"==autoPlay){
+//                var mobileIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i) == null ? false : true;
+
+                if(false) {
+                    if (videojs != null) {
+                        videojs("video").pause();
+                        setTimeout(function(){videojs('video').play();},1000);
+                    }
+                } else {
+                    videojs('video').play();
+                }
+            }
+*/
+
+            $('.paging_area .prev').show();
+            $('.paging_area .next').show();
+            $("#btn_vod_prev").show();
+            $("#btn_vod_next").show();
+
+//            if(canplayCnt == 0){
+
+                //sessionCheck(true);
+                //2021-10-05 속도체크 로직 제외 처리 by 박성규 - 정보화요청
+                //measureConnectionSpeed('1');
+                //timerId = setInterval(function(){sessionCheck(true); measureConnectionSpeed('2');}, 4400);
+                //timerId = setInterval(function(){sessionCheck(true);}, 4400);
+//                canplayCnt++;
+//            }
+        }
+
+    </script>
+
+    <title>영유아 일반응급처치의 이해 &gt; 학습목표 &lt; 학습창 | 한국보건복지인재원</title>
+
+</head>
+<body onresize="resizePopupR();" onload="resizePopupF();" >
+
+<form name="eduCyberContentsForm" id="eduCyberContentsForm" method="post" action="ND_player0199p.do">
+    
+    <input type="hidden" name="q_uuid" id="q_uuid" value="589369c3-1ab4-490f-ad34-8a143922a825" />
+    <input type="hidden" name="q_outputCode" id="q_outputCode" value="" />
+    <input type="hidden" name="q_cntntsCode" id="q_cntntsCode" value="0092901" />
+    <input type="hidden" name="q_outputYear" id="q_outputYear" value="" />
+    <input type="hidden" name="q_cntntsYear" id="q_cntntsYear" value="" />
+    <input type="hidden" name="q_crseGrnoCode" id="q_crseGrnoCode" value="222001095" />
+    <input type="hidden" name="q_untseqNo" id="q_untseqNo" value="1" />
+    <input type="hidden" name="q_pgeNo" id="q_pgeNo" value="3" />
+    <input type="hidden" name="q_posCurrent" id="q_posCurrent" value="" />
+    <input type="hidden" name="q_posStart" id="q_posStart" value="17" />
+    <input type="hidden" name="q_posForceStart" id="q_posForceStart" />
+    <input type="hidden" name="q_spentSecond" id="q_spentSecond" value="" />
+    <input type="hidden" name="q_spentSecondBegin" id="q_spentSecondBegin" value="17" />
+    <input type="hidden" name="q_frameWidth" id="q_frameWidth" value="12" />
+    <input type="hidden" name="q_frameHeight" id="q_frameHeight" value="64" />
+    <input type="hidden" name="q_caption" id="q_caption" value="false" />
+
+    <input type="hidden" name="q_autostart" id="q_autostart" value="1" />
+    <input type="hidden" name="q_type" id="q_type" value="" />
+    <input type="hidden" name="q_isChangeDomain" id="q_isChangeDomain" value="Y" />
+    <input type="hidden" name="q_previewMode" id="q_previewMode" value="" />
+    <input type="hidden" name="q_refDomain" id="q_refDomain" value="childsafe.kohi.or.kr" />
+    <input type="hidden" name="q_isCdnPreview" id="q_isCdnPreview" value="" />
+</form>
+
+
+<div class="video_wrap" style="background-color: black;">
+    <div class="top" style="z-index:30;">
+        <h1 class="logo"><img src="/resources/study/images/logo.png" alt="한국보건복지인재원 KOREA HUMAN RESOURCE DEVELOPMENT INSTITUTE FOR HEALTH"></h1>
+        <div class="title"><span>영유아 일반응급처치의 이해</span><span>학습목표</span></div>
+        <a href="#" id="popup_close" onclick="closeWindow()" class="btn_close">학습종료</a>
+    </div>
+
+    <div id="videoEl" class="video_area" style="width:100%;height:100%;">
+
+        <!-- 페이지 이전 버튼 -->
+            <button type="button" id="btn_vod_prev" class="vod_button vod_prev" style="display:none;" >이전</button>
+            <button type="button" id="btn_vod_next" class="vod_button vod_next" style="display:none;" >다음</button>
+        <!-- 페이지 다음 버튼 -->
+
+        <div class="vjs-load_container" style="width:100%;height:100%;background-color: #000000;">
+            <div class="vjs-load" style="top:43%;left:43%;z-index:999;position:absolute;" >
+                <img src="/resources/study/images/loading.gif" alt="loading" >
+            </div>
+        </div>
+
+        <div id="popupBlocker" style="display:none;"></div>
+        <div id="video_overlay_container">
+            <div id="popupBlocker2" style="display:none;"></div>
+            <div class="popupLayer move_into_video popupLayerW">
+                
+                
+                
+                <iframe src="about:blank"
+                        id="popupRect"
+                        class="popup_iframe popup_iframeW"
+                        frameborder="0"
+                        allowtransparency="yes"
+                        scrolling="no">
+                    <p>Your browser does not support iframes.</p>
+                </iframe>
+            </div>
+
+            <div class="s_layer_wrapper">
+                <div class="interactionPopupArea">
+                    <div class="interactionPopupBlock_dummy popupMiniLayer" index="" style="display:none;">
+                        <span class="pop_title">"-"</span><br>보기 버튼을 클릭하세요
+                        <div><a href="#" onclick="showActualPopup($(this))" class="btn_more">보기</a></div>
+                        <a href="#"  onclick="closeMiniPopupLayer($(this))" class="btn_close">레이어팝업 닫기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bottom" style="position:absolute;"> <!-- releative면 목차가 안보임 ie에서만 -->
+        <ul class="list">
+            <li class="">
+                <a href="#" class="btn01 " title="목차 열기">목차</a>
+                <div class="bottom_area menu_area">
+                    <ul>
+                        
+                        
+                            <li><a href="#" onclick="openPage(1)">1. 인트로</a></li>
+                        
+                            <li><a href="#" onclick="openPage(2)">2. 도입 사례</a></li>
+                        
+                            <li><a href="#" onclick="openPage(3)">3. 학습목표</a></li>
+                        
+                            <li><a href="#" onclick="openPage(4)">4. 영유아 발달의 특징과 손상</a></li>
+                        
+                            <li><a href="#" onclick="openPage(5)">5. 응급처치의 필요성 및 중요성</a></li>
+                        
+                            <li><a href="#" onclick="openPage(6)">6. 영유아 손상 응급처치 방법</a></li>
+                        
+                            <li><a href="#" onclick="openPage(7)">7. 가정연계</a></li>
+                        
+                            <li><a href="#" onclick="openPage(8)">8. 점검하기 - 퀴즈</a></li>
+                        
+                            <li><a href="#" onclick="openPage(9)">9. 핵심정리</a></li>
+                        
+                            <li><a href="#" onclick="openPage(10)">10. 아웃트로</a></li>
+                        
+                    </ul>
+                    <a href="#" class="btn_close">메뉴닫기</a>
+                </div>
+            </li>
+            <li class="">
+                <a href="#" class="btn02" title="북마크 열기">북마크</a>
+                <div class="bottom_area" style="">
+                    <a href="#" class="btn_add" onclick="addBMK(null)" title="북마크 추가">추가</a>
+                    <ul id="bookmark_ul">
+                        
+                    </ul>
+                    <ul id="bookmark_dummy" style="display:none">
+                        <li bmk="" class="bmk_li" style="">
+                            <div onclick="goBMK($(this).parent().attr('bmk'))" style="display: inline">
+                            <span class="bookmark_page_value">[0]</span>
+                            <span class="bookmark_page_label">페이지</span>
+                            <span class="bookmark_page_time">00:00</span>
+                            </div>
+                            <a href="#" onclick="removeBMK($(this).parent().attr('bmk')); return undefined;" class="btn_remove">00:00 삭제</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nouse">
+                <a href="#" class="btn03 custom" title="교안 다운로드 받기">교안</a>
+            </li>
+            <li class="">
+                <a href="#" class="btn04 custom" title="학습정보 보기">학습정보</a>
+                <div class="bottom_area script_area">
+                    <div class="script_box" tabindex="0">
+                        <div>[아동안전사이버교육] 응급처치 및 심폐소생술 (아동안전지원단)</div>
+                    </div>
+                    <a href="#" class="btn_close">학습정보 닫기</a>
+                </div>
+            </li>
+            <li class="">
+                <a href="#" class="btn05 custom" title="자막 열기">자막</a>
+            </li>
+            <li class="nouse">
+                <a href="#" class="btn06 custom" title="수어 열기">수어</a>
+                <!-- TODO 2021.06.16 draggable 기능 확인 필요: cache 사용시 jquery-ui 및 ui.js 사용 -->
+                <!-- 팝업 draggable 기능 사용 시 draggable class 추가 -->
+                <div class="bottom_area_nouse sign_area_nouse" id="signVideoEl" style="display:none">
+                    <div class="sign_box" style="background: #fff"></div>
+                    <a href="#" class="btn_close">수어 닫기</a>
+                </div>
+            </li>
+            <li class="nouse">
+                <a href="#" class="btn07 nouse" title="배속 열기">배속</a>
+                <div class="bottom_area" id="speed_div">
+                    <ul>
+                        
+                        <li><a href="#" speed="1.6">1.6 X</a></li>
+                        <li><a href="#" speed="1.4">1.4 X</a></li>
+                        <li><a href="#" speed="1.2">1.2 X</a></li>
+                        <li><a href="#" speed="1.0" class="active">1.0 X</a></li>
+                        <li><a href="#" speed="0.8">0.8 X</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+
+        <div class="paging_area">
+            <button type="button" id="paging_prev" class="prev">이전페이지</button>
+            <div class="num"><span>3</span> / 10</div>
+            <button type="button" id="paging_next" class="next">다음페이지</button>
+        </div>
+
+    </div>
+
+</div>
+<div id="dbg_con" style="display:none;width:300px;height:400px;position:absolute;left:10px;top:90px;opacity: 0.9;">
+<pre style="background-color: #aaccaa;">
+교안: False
+학습정보: True
+자막: True
+수어: False
+배속: False
+탐색: False
+</pre>
+</div>
+
+</body>
+<script type="text/javascript">
+    var captionStat = false;
+    var needsUnmute = true;
+    window.isMobileBrowser = false;
+    var signLayerUrl = window.isMobileBrowser? '' : '';
+    window.gn_oldTime = -2;
+    window.gn_oldTimeP = -2;
+    var queryDict = {};
+    var g_popupDatalist = [
+        
+    ];
+    window.play_started = false;
+    var g_popupDataSeconds = [];
+    
+    
+        g_popupDatalist.forEach(function(oo) { g_popupDataSeconds.push(oo["seconds"]) });
+    
+
+    if(g_popupDatalist.length >= 1 && g_popupDatalist[0].full) {
+
+    }
+    // http://localhost:8082/upload/study/Contents//0000/CO0020/001/001/P001.mp4
+    var g_captionTimeout = null;
+    var g_srclang = "";
+    var g_player = null;
+
+    window.bb2 = true;
+
+    location.search.substr(1).split("&").forEach(function(item) {queryDict[item.split("=")[0]] = item.split("=")[1]});
+
+    window._videoJsReady = function() {
+        var hasMovie = true;
+    
+        var seeking = false;
+        var thisPageCompletedInfo = pageMapScript[3];
+        if(thisPageCompletedInfo === undefined) { thisPageCompletedInfo = false; }
+        if(thisPageCompletedInfo) { seeking = true; }
+
+        
+
+        var qas = ("1" == "1");
+        var autoPlay = qas || (!hasMovie);
+        var movieUrl_hd = window.isMobileBrowser ? 'https://contents.kohi.or.kr/kohihls/_definst_/smart/2021/C00929/01/001/003/M003.mp4/playlist.m3u8' : 'https://contents.kohi.or.kr/kohihls/_definst_/smart/2021/C00929/01/001/003/P003.mp4/playlist.m3u8';
+
+        var layers = [];
+
+        var board = "";
+        
+        
+            board = "";
+        
+        if(window.bb2 && board.length > 0) {
+            //initFullPopup(board);
+            if(board.split('://').length < 2) {
+                var domain = location.href.split(location.pathname)[0];
+                /* var ss = board.startsWith('/') ? "": "/";
+                board = domain + ss + board; */
+
+                var ss = board.indexOf('/') == 0 ? "": "/";
+                board = domain + ss + board;
+            }
+            var la_w = '100%', la_h = '100%';
+            layers = [ { url: board, time: 0, pause: false, width:la_w, height:la_h } ];
+        }
+
+        $('#videoEl').createVideo({ //플레이어 생성 영역 DIV의 아이디
+            id: 'video', //생성될 비디오 태그 아이디 *필수값
+            src: [ //영상  label: 영상 라벨, url: 영상 주소 *필수값
+                {label: 'HD', url: movieUrl_hd }
+            ],
+            thumb: '/resources/study/html5player/../images/black_thumb.png', //썸네일 주소
+            track: [ //자막 type: 자막 라벨 , url: 자막주소
+                {label: 'KOR', url: '/data/study/2021/C00929/01/001/003/P003.vtt'}
+            ],
+            autoPlay: false, //웹접근성 오토플레이 제거 2022.5.13 //자동재생 여부 : 자동재생될 경우 음소거가 됩니다.
+            muted: false,
+            layerPop: layers,
+            //logo: [{pos: 0, url: ''}],
+            startTime: 16, //영상 재생 시작 시간
+            seeking: seeking,
+            marker: [],
+            bookmark: [],
+            download: [ // 다운로드 버튼 생성 url: 파일 경로(웹경로), name: 다운로드 결과 파일명
+                {url: '/resources/study/html5player/sample/demo.3png;', name: "abc.png"}
+            ],
+        });
+
+        if(signLayerUrl.length > 0) {
+            $('#video').signLayerPlayer({
+                src: signLayerUrl,
+                showType: false,
+                ratio: '30%'
+            });
+        }
+
+
+        if(queryDict['volume'] != null) {
+            // volume 0으로(테스트용)
+            videojs("video", {}, function () {
+                var vv = 0 + parseFloat(queryDict['volume']);
+                this.volume(vv);
+            });
+        }
+
+        var pageEndRptSaveCnt = 0;
+
+        videojs('video').ready(function () {
+            g_player = videojs('video');
+            g_player.textTracks().on("change", function (event) {
+                clearTimeout(g_captionTimeout);
+                var showing = this.tracks_.filter(function (track) {
+                    if (track != null && track.kind === "subtitles" && track.mode === "showing") {
+                        g_srclang = track.language;
+                        //console.log("track ===> " + track);
+                        return true;
+                    }
+                })[0];
+            });
+
+            var vdf = $("video").children();
+            
+
+            
+
+            g_player.on("playing", function(a,b,c) {
+
+                //동영상 재생시 세션 체크 2021.02.18 김동훈
+                sessionCheck(true);
+
+                //console.info("playing " + g_player.paused() +" | " + + a+","+b+","+c);
+                window.abc = [a,b,c];
+                var popup_div = $("div.popupLayer");
+                popup_div.addClass("popped");
+                if(!window.play_started && g_player != null) {
+                    ///g_player.paused(false);
+                    //g_player.volume(1.0);
+                    g_player.muted(false);
+                }
+                window.play_started = true;
+
+            });
+
+            trackViewInit();
+            var isShowCaption = "false";
+            captionStat = (isShowCaption == "true" || isShowCaption == "1");
+            //console.info("--fst : " + captionStat);
+            captionStatChanged();
+
+
+
+            // move layer
+            $("div#video_overlay_container").children().each(function() {
+                $(this).detach().appendTo("div#video");
+            });
+
+            var board = "";
+            
+            
+                board = "";
+            
+
+            if(board.length > 0 && !window.bb2) {
+                initFullPopup(board);
+            }
+
+            window.__rptplum = 0;
+            videojs('video').on('timeupdate', function () {
+                var time = videojs('video').currentTime();      //현재재생시간
+                var t = parseInt(time);
+
+                var old = gn_oldTimeP;
+                gn_oldTimeP = t;
+
+                if(window.on_lawrawlowrowwow == null) {
+                    window.on_reset_time();
+                    window.on_lawrawlowrowwow = setInterval(function(){_lrpt_t_t();}, 1000 * 1);
+                }
+
+
+                var tt = t - 10;
+                if(g_popupDataSeconds.indexOf(t) > -1
+                    || g_popupDataSeconds.indexOf(tt) > -1) {
+                    // has time
+                    //console.log("[T: "+t+"] : include");
+
+                    if(old != t) {
+                        for (var i = 0; i < g_popupDatalist.length; i++) {
+                            var obj = g_popupDatalist[i];
+                            //console.log("compare with : "+ obj["seconds"]);
+                            if (obj["seconds"] + 10 == t && parseInt(obj["stopOnPopup"]) == 0) {
+                                //console.log("[" + i + ": " + t + "] : close mp");
+                                closeMiniPopup(i);
+                            }
+                            if (obj["seconds"] == t) {
+                                //console.log("[" + i + ": " + t + "] : OPEN smp");
+                                //console.info("let it go");
+                                //console.log("11111111110 = ");
+                                if(!window.play_started) {
+                                    //console.log("11111111111 = " + $('#q_posStart').val());
+                                    //console.log("11111111112 = " + durationTime);
+                                    if($('#q_posStart').val() < durationTime) {
+                                        //console.log("11111111113 = ");
+                                        $('button.vjs-big-play-button').click();
+                                        showMiniPopup(i);
+                                    }
+                                } else {
+                                    //console.log("11111111114 = ");
+                                    showMiniPopup(i);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // 영상 종료
+                if(0 < durationTime && t>= durationTime-1) {
+
+                    var isMovie = true;
+
+                    if(pageEndRptSaveCnt==0){
+                        isSaveProgress = false;
+                        _lrpt_t_t2();
+                        pageEndRptSaveCnt++;
+                        clearInterval(window.on_lawrawlowrowwow);
+                    }
+
+                    if(!isMovie) {
+                        // 시간 다되었을때의 액션
+                        window.on_work_time = window.on_full_time;
+                        saveProgress(function () { });
+                    }
+                }
+
+            });
+
+            $(window).resize(function() {
+                resizePopupLayer();
+            });
+
+        });
+    };
+
+    var g_speedMouseStatus = false;
+
+    $("body").ready(function() {
+        $("div#speed_div").hover(
+            function() {
+                //console.log("cc");
+                g_speedMouseStatus = true;
+            }, function() {
+                //console.log("EE");
+                if(!g_speedMouseStatus) return;
+                //console.log("EE ok");
+                g_speedMouseStatus = false;
+                closePlayRate();
+            }
+        );
+        
+        
+            closeSessionCheck();
+        
+    });
+
+    
+    $("a.btn03").click(function () {
+        var popup_div = $("div.popupLayer");
+        var popup_iframe = $("iframe.popup_iframe");
+
+        var downloadUrl = "";
+        popup_iframe.attr("src", downloadUrl);
+    });
+
+    
+    $("li:not(.nouse) > a.btn04").click(function () {
+        var parent = $("a.btn04");
+        var layer =$("a.btn04").siblings(".bottom_area");
+        var toVisible = !(layer.hasClass("open"));
+        layer.toggle("open");
+
+        if(toVisible) {
+            parent.addClass("active");
+            layer.show();
+            var hh = layer.outerHeight();
+            hh = Math.max(hh, (14 + 42+14));
+            layer.css("top", 0 - (30 + 4 + hh));
+        } else {
+            parent.removeClass("active");
+            layer.hide();
+            layer.css("top", null);
+        }
+    });
+
+    
+    $("a.btn05").click(function () {
+        var btn05 = $(".btn05");
+        if(btn05.parent().hasClass("nouse")) {
+            return;
+        }
+        trackView();
+    });
+
+    
+    $("a.btn06").click(function () {
+        toggleSignView();
+    });
+
+    
+    $("a.btn07 ~ div>ul>li>a").click(function () {
+        var nx = parseFloat($(this).attr("speed"));
+        playRate(nx);
+    });
+
+
+
+    function closeMiniPopupLayer(obj) {
+        var divNo = -1;
+        var tmp_0 = obj.parent();   // 1 depth!
+        var tmp_1 = tmp_0.attr('index');
+        divNo = parseInt(tmp_1);
+
+        if(divNo < 0) {
+            return;
+        }
+
+        tmp_0.remove();
+
+    }
+
+    function closeMiniPopup(idx) {
+        var obj = $(".interactionPopupArea .interactionPopupBlock[index="+idx+"]");
+        if(obj.length > 0) {
+            obj.hide();
+        }
+
+        var shown = $(".interactionPopupArea .interactionPopupBlock:visible").length;
+        if(shown == 0 && window.videojs != null) {
+            //console.info("play 766");
+            videojs("video").play();    // resume
+        }
+    }
+
+    
+    function closePopup() {
+        var popup_div = $("div.popupLayer");
+        var popup_iframe = $("iframe.popup_iframe");
+
+        popup_iframe.attr("src", "about:blank");
+        popup_div.removeClass("active");
+        popup_div.fadeOut();
+        $("div#popupBlocker").hide();
+        $("div#popupBlocker2").hide();
+
+
+        // 이미 재생이 다 되었는지 확인
+        var len = 17 -2;
+        var durationTime = Math.floor(videojs('video').duration()); //총재생시간
+
+        //총재생시간 변경 20210601
+        //if(gn_oldTimeP >= len && len > 0) {
+        // 영상 끝.
+        if(gn_oldTimeP >= durationTime && durationTime > 0) {
+
+            
+            // setTimeout(function() { $("#paging_next").trigger("click"); }, 1000);
+            return; // 그냥 비디오 재개되지 않도록 하거나
+        }
+
+        
+        if(videojs != null) {
+            //console.info("play 792");
+            videojs("video").play();    // resume
+        }
+    }
+
+
+    function closeWindow() {
+        
+        saveProgress(function() {
+            window.close();
+        });
+    }
+
+    function showMiniPopup(idx) {
+        var obj = g_popupDatalist[idx];
+        var title = obj["name"];
+        var url = obj["popupUrl"];
+        var pos = obj["seconds"];
+        var pause1 = obj["stopOnPopup"];
+        var pause2 = obj["stopOnButton"];
+
+
+        showMiniPopup2(idx, title, url, pos, pause1, pause2);
+    }
+
+    function showMiniPopup2(idx, title, url, pos, stopOnPopup, stopOnButton) {
+        if(idx < 0) {
+            closeMiniPopup(idx);
+            return;
+        }
+
+        var myPrevBlock = $(".interactionPopupArea .interactionPopupBlock[index="+idx+"]");
+        if(myPrevBlock.length > 0) {
+            return;
+        }
+
+        var shown = $(".interactionPopupArea .interactionPopupBlock:visible").length;
+        if((shown + 1) >= 3) {
+            stopOnPopup = true;
+        }
+
+        var dummy = $(".interactionPopupBlock_dummy");
+        var popup_mini = dummy.clone();
+
+        popup_mini.attr("class", "interactionPopupBlock");
+        popup_mini.attr("index", idx);
+        var pid = "mini_layer_"+idx;
+        popup_mini.attr("id", pid);
+        $(".interactionPopupArea").append(popup_mini);
+
+        var popup_title = $("#" + pid + " > span.pop_title");
+        var popup_link = $("#" + pid + " > div > a.btn_more");
+        var popup_close = $("#" + pid + " > a.btn_close");
+
+        popup_title.text(title);
+
+        popup_link.attr("idx", idx);
+
+        popup_mini.attr("idx", idx);
+        popup_mini.attr("pause", pauseMovie ? 1 : 0);
+        popup_mini.attr("url", url);
+
+        popup_mini.slideDown();   // show()
+
+        if(stopOnPopup) {
+            // blocker
+            var bgBlocker = $("div#popupBlocker");
+            bgBlocker.show();
+            var bgBlocker2 = $("div#popupBlocker2");
+            bgBlocker2.show();
+
+            popup_close.hide();
+            if (videojs != null) {
+                videojs("video").pause();
+            }
+        } else {
+            popup_close.show();
+        }
+    }
+
+
+    window._f_p_mode = false;
+    function initFullPopup(url) {
+        window._f_p_mode = true;
+        var popup_div = $("div.popupLayer");
+        var popup_iframe = $("iframe.popup_iframe");
+        popup_div.removeClass("popped");
+        showFullPopup(url, true);
+    }
+    function showFullPopup(url, silence) {
+        var popup_div = $("div.popupLayer");
+        var popup_iframe = $("iframe.popup_iframe");
+        popup_div.addClass("maximum");
+        popup_iframe.addClass("maximum");
+        popup_iframe.attr("src", url);
+        $("body").addClass("html_mode");
+
+
+        document.getElementById("popupRect").onload = function() {
+            $("html").css("background-color", "transparent");
+            $("body").css("background-color", "transparent");
+            $("body").ready(function() { iframe_loaded($(this)); });
+        };
+        popup_div.addClass("active");
+        if(silence != true) {
+            popup_div.fadeIn();
+        }
+
+        var ifr = popup_iframe.get(0);
+        var ifrw = (ifr.contentWindow) ? ifr.contentWindow : (ifr.contentDocument.document) ? ifr.contentDocument.document : ifr.contentDocument;
+        $(ifrw).trigger('resize');  // not working
+
+    }
+
+    function iframe_loaded(ifr_body) {
+        var first_children = ifr_body.children();
+        //console.info("ifl - 1");
+        if(first_children.length == 0) { return; }
+        //console.info("ifl - 2");
+        var hh = first_children.eq(0).outerHeight();
+        var popup_iframe = $("iframe.popup_iframe");
+        //console.info("ifl - 3");
+        if(window._st_ui_ == null) { return; }
+        //console.info("ifl - 4");
+
+        var connectTouchEvents = window._st_ui_.connectTouchEvents;
+        //console.info("ifl - 5");
+        if(connectTouchEvents != null) {
+            //console.info("ifl - 6");
+            connectTouchEvents(ifr_body);
+            var ifc = popup_iframe.contents();
+            var jq_ifc = ifc.find("document");
+            connectTouchEvents(jq_ifc);
+        }
+
+        window.ffc = first_children;
+        window.ffc1 = first_children;
+        window.ffc2 = first_children;
+
+        //ifr_body
+    }
+
+    function showActualPopup(obj) {
+        var divNo = -1;
+        var tmp_0 = obj.parent().parent();
+        var tmp_1 = tmp_0.attr('index');
+        divNo = parseInt(tmp_1);
+
+        if(videojs != null) {
+            videojs("video").pause();
+        }
+
+        if(divNo < 0) {
+            return;
+        }
+        var index = divNo;
+        var obj = g_popupDatalist[index];
+        var title = obj["name"];
+        var url = obj["popupUrl"];
+        var pos = obj["seconds"];
+        var pauseMovie = obj["stopOnPopup"];
+        var pauseMovieClick = obj["stopOnButton"];
+
+        var shown = $(".interactionPopupArea .interactionPopupBlock:visible").length;
+        tmp_0.remove();
+
+
+        var bgBlocker = $("div#popupBlocker");
+        var bgBlocker2 = $("div#popupBlocker2");
+
+        var popup_div = $("div.popupLayer");
+        var popup_iframe = $("iframe.popup_iframe");
+
+        if(shown > 1) {
+            // 이거 말고도 팝업이 있다.
+
+        } else {
+
+        }
+
+
+        if(url == null || url == "") {
+            alert(" 인터렉션 데이터가 존재하지 않습니다.");
+            return;
+        }
+        var uu = url.toLowerCase();
+        var ptt = uu.split('.');
+        var extension = ptt[ptt.length - 1];
+        if(["mp4","mp3","avi","mkv","wmv"].indexOf(extension) >= 0) {
+            alert("동영상 파일이 인터렉션일 수는 없습니다.");
+            return;
+        }
+
+        if(uu.indexOf("://") < 0) {
+            url = window.location.origin + "/" + url;
+        }
+        if(["zip","7z","pdf","pptx","ppt","xls","xlsx","doc","docx","hwp","txt","png","jpg","jpeg"].indexOf(extension) >= 0) {
+            popup_iframe.attr("src", url);
+            return;
+        }
+
+        if (pauseMovieClick) {
+            bgBlocker.show();
+            bgBlocker2.show();
+            videojs("video").pause();
+        }
+
+        popup_div.removeClass("maximum");
+        popup_iframe.removeClass("maximum");
+        popup_div.addClass("active");
+        popup_iframe.addClass("active");
+
+        popup_iframe.attr("src", url);
+        popup_div.fadeIn();
+
+
+    }
+
+    function resizePopupLayer() {
+
+    }
+
+
+    window.toggleSignView = function() {
+        $('#video').signView();
+    }
+
+
+    function trackViewRtn(stat) {
+        //console.log("trackViewRtn = " + stat);
+        //captionStat = stat;   // 플레이어에서 오는 데이터 무시.
+        captionStatChanged();
+
+    }
+
+    function signViewRtn(stat) {
+        //console.log("signViewRtn = " + stat);
+        setActive($("li>a.btn06"), stat);
+    }
+
+    function playRateRtn(rate) {
+        //console.log(   "playRateRtn = " + rate);
+
+    }
+
+    function setActive(jqo, val) {
+        if (val) {
+            jqo.addClass("active");
+        } else {
+            jqo.removeClass("active");
+        }
+    };
+
+
+    function playRate(rate) {
+        videojs('#video').playbackRate(rate);
+
+        $("li>a.btn07 ~ div>ul>li>a").each(function () {
+            var sx = this.text.replace(/[xX ]*/gi, "");
+            var nx = parseFloat(sx);
+            setActive($(this), (rate == nx));
+        });
+        closePlayRate();
+    }
+    function closePlayRate() {
+        $("li>a.btn07").removeClass("active");
+        $("#speed_div").removeClass("open");
+        $("#speed_div").attr("style", "");
+    }
+
+    function trackViewInit() {
+        //captionStat = !captionStat;
+        var ptype = isMobile ? "normal" : "pop";
+        
+        
+        
+        //     ptype = "normal";
+        // }
+
+        //if (captionStat) {
+        $('#video').trackView({
+            idx: 0, // 자막 index(0: 첫번째 자막, 1: 두번째 자막 ...)
+            type: ptype, // "pop", //자막 type(pop: 팝업 레이어, normal: 플레이어 내에서 재생)
+            width: 1024, //팝업 레이어 너비
+            height: 50 //팝업 레이어 높이
+        });
+        // } else {
+        //     $('#video').trackView([]);
+        //}
+        captionStatChanged();
+    }
+
+    function trackView() {
+        captionStat = !captionStat;
+        captionStatChanged();
+    }
+
+    function captionStatChanged() {
+        var vtt = $("div#videoEl"); // div.vjs-track-overlay");
+        var btn05 = $(".btn05");
+        var captionForceStat = (''.length > 0);
+        if(btn05.parent().hasClass("nouse") && captionForceStat != true) {
+            return;
+        }
+        $("#q_caption").val(captionStat ? 1 : 0);
+        //console.info("captionStatChanged : " + captionForceStat);
+
+        if(captionStat || captionForceStat) {
+            vtt.addClass("tvtv");
+            btn05.addClass("active");
+        } else {
+            vtt.removeClass("tvtv");
+            btn05.removeClass("active");
+        }
+    }
+
+    function updateSubtitleInfo() {
+        var items = $("div.vjs-captions-button:eq(1)>div>ul>li.vjs-menu-item");
+        var selectedLang = "";
+        items.each(function () {
+            var text = $(this).text();
+            var array = text.split(",");
+            if (array.length == 2) {
+                selectedLang = array[0];
+            }   // array[1].trim() == "selected" or array[1] == undefined
+        });
+
+        captionStat = selectedLang.length > 0;
+        captionStatChanged();
+        //setActive($("a.btn05"), selectedLang.length > 0);
+
+    }
+
+
+
+    function iframeClick() {
+        if(false) {
+            var opened = $("body").hasClass("open");
+            // ui.js 의 openMenu, closeMenu 부분
+
+            if(false == opened) {
+                $(".top,.bottom").fadeIn();
+                $("body").addClass("open");
+                $(".video_wrap").addClass("active");
+            } else {
+                //if($("body").hasClass("html_mode")) { return; }
+                $(".top,.bottom").fadeOut();
+                $("body").removeClass("open");
+                $(".video_wrap").removeClass("active");
+            }
+        }
+    }
+
+
+    function pauseMovie() {
+        //console.info("pauseMovie");
+    }
+
+    
+    function closeSessionCheck() {
+       var previewMode = $("#q_previewMode").val();
+       var data = {
+                    callFunc:"callback_ND_player0199p"
+                   ,rtnVal:""
+                  };
+
+       if("" == previewMode){
+
+           try {
+                opener.postMessage(data,"https://childsafe.kohi.or.kr");
+           } catch(e) {
+               //학습창 닫기 이전에 진도 저장 처리
+               var hasStarted = videojs('video').hasStarted();
+
+               if(hasStarted){
+                   window.play_started = true;
+                   window.on_work_time = 0;
+                   _lrpt_t_t();
+               }
+
+               if(videojs != null) {
+                   videojs("video").pause();
+               }
+
+               alert("과정 학습하기 창이 강제로 종료되었으므로 \n다시 로그인하시고 학습을 진행 하시기 바랍니다.(CODE:10)");
+               window.close();
+            }
+       }
+    }
+
+    function openerCloseCheck() {
+        
+        if(opener == null || opener.closed) {
+            window.close();
+        }
+
+        
+        sessionCheck(true);
+    }
+
+    function sessionCheck(isEvent) {
+
+        $.ajax({
+             url : study.getVo().pages.sessionCheckPage,
+             type : "POST",
+             contentType : "application/json",
+             dataType : "json"
+        })
+        .done(function(data, textStatus, xhr) {
+            if(data.playerClose == "Y") {
+
+                //세션 끊긴 상태이면 동영상 플레이 정지 처리 2021.02.23 김동훈
+                if(videojs != null) {
+                    videojs("video").pause();
+                }
+
+                clearInterval(timerId);
+
+                alert("장기간 사용하지 않아 로그아웃 되었습니다.\n로그인 후 다시 시도해주세요.(CODE:88)");
+                //파이어폭스는 닫기 스크립트 실행 안됨.
+                window.close();
+            } else {
+
+                if(isEvent) {
+                    closeSessionCheck();
+                }
+            }
+
+        })
+        .fail(function(data, textStatus, errorThrown) {
+            var previewMode = $("#q_previewMode").val();
+
+            if("" == previewMode){
+
+                if(videojs != null) {
+                    videojs("video").pause();
+                }
+
+                alert("네트웍이 끊겼습니다.\n 다시 시도해주세요.(CODE:89)");
+                window.close();
+            }
+        });
+
+     }
+
+     var imageAddr = "/resources/study/images/icon_next.png";
+     var downloadSize = 1408; //bytes
+     var speedLow = 0;
+     var speedLimit = 13; //Kbps
+     var timeLimit = 3;
+
+//     function showProgressMessage(msg){
+//        if(console) {
+//           if(typeof msg == "string") {
+//               console.info(msg);
+//           } else {
+//               for(var i=0;i<msg.length;i++){
+//                   console.info(msg[i]);
+//               }
+//           }
+//        }
+
+//        var oProgress = $('#progress');
+//        if(oProgress) {
+//            var actualHTML = (typeof msg=="string") ? msg : msg.join("<br />");
+//            $('#progress').html(actualHTML);
+//        }
+
+//     }
+
+     function measureConnectionSpeed(gbn){
+        var startTime, endTime;
+        var download = new Image();
+        download.onload = function (){
+            endTime = (new Date()).getTime();
+            showResults();
+        }
+
+        download.onerror = function (err, msg){
+            if(videojs != null) {
+                videojs("video").pause();
+            }
+
+            clearInterval(timerId);
+
+            alert("네트웍이 불안정하므로 인터넷 연결을 확인하시고 다시 시도해주세요.(CODE:30)");
+            window.close();
+        }
+
+        startTime = (new Date()).getTime();
+        var cacheBuster = "?stime="+startTime;
+        download.src = imageAddr + cacheBuster;
+
+        function showResults() {
+
+            var duration = (endTime-startTime)/1000;
+            var bitsLoaded = downloadSize*8;
+
+            var speedBps = (bitsLoaded/duration).toFixed(2);
+            var speedKbps = (speedBps/1024).toFixed(2);
+
+            if(speedKbps <= speedLimit || gbn=='1'){
+                speedLow++;
+
+                var close = false;
+                var msgCode = "";
+                var currentTime = videojs("video").currentTime();
+                var durationTime = videojs("video").duration();
+                var hasStarted = videojs('video').hasStarted();
+
+                if(gbn=='1' && speedKbps <= speedLimit-4){
+                    close = true;
+                    msgCode = "(CODE:31)";
+                } else {
+
+                    if( hasStarted && (currentTime < durationTime-timeLimit) && speedLow > 1){
+                        close = true;
+                        msgCode = "(CODE:32)";
+                    } else if(hasStarted && speedLow > 2) {
+                        close = true;
+                        msgCode = "(CODE:33)";
+                    } else if(!hasStarted && speedLow > 3) {
+                        close = true;
+                        msgCode = "(CODE:34)";
+                    }
+                }
+
+                if(close) {
+
+                    if(videojs != null) {
+                        videojs("video").pause();
+                    }
+
+                    clearInterval(timerId);
+
+                    alert("네트웍이 불안정하므로 인터넷 연결을 확인하시고 다시 시도해주세요."+msgCode);
+                    window.close();
+                }
+
+            } else {
+                speedLow = 0;
+            }
+
+          //  showProgressMessage(["connection speed :", speedKbps+" Kbps"]);
+        }
+     }
+
+     function receiveMessage(event){
+
+         var data = event.data;
+
+         if(videojs != null) {
+             videojs("video").pause();
+         }
+
+         clearInterval(timerId);
+
+         //2021-12-09 정보화전략부 임재환  대리 요청으로 주석처리
+         if(data == 'CODE20'){
+             //alert("네트웤이 불안정하므로 잠시후 다시 시도해주세요.(CODE:20)");
+             return;
+         } else if(data == 'CODE97') {
+             alert("네트웤이 불안정하므로 잠시후 다시 시도해주세요.(CODE:97)");
+         } else if(data == 'CODE98') {
+             alert("장기간 사용하지 않아 로그아웃 되었습니다.\n로그인 후 다시 시도해주세요.(CODE:98)");
+         }
+
+         window.close();
+     }
+
+</script>
+<script src="/resources/study/html5player/componentRoot-init.js?ver=1.2"></script>
+<script src="/resources/study/html5player/tgvideo-init.js?ver=1.2"></script>
+<link rel="stylesheet" href="/resources/study/css/tgvideo_fix.css?ver=1.2">
+<script type="text/javascript">
+    window._videoJsReady();
+</script>
+
+</html>
