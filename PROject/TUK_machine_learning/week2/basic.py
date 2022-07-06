@@ -17,7 +17,7 @@ def costFunc(x, y, weight0, weight1, dataAmount = 1): # 손실함수, 평균제�
     arrSum = (temp**2).sum() # 
     
     total = arrSum / (dataAmount) # 평균 | dataAmount는 함수 요소로 받아온다.
-    return round(total, 4) # float, 소수점 3자리에서 반올림
+    return round(total, 4) # float, 소수점 5자리에서 반올림
 
 def gredientFunc(x, y, weight0, weight1, dataAmount = 1, a = 0.1): # 손실함수, 평균제곱오차 | 예측값과 실제값이 얼마나 차이나는지 보여주는 함수이다. 손실함수를 통해 평균제곱오차를 도출한다.
  # 예측값 - 실제값 | 데이터1 즉, xn에서 예측값 y, 실제값 y를 비교한다. | 차이를 제곱하여 추합해, 데이터 개수로 나누고, 평균을 구한다. | 차이나는 정도를 평균으로 나타낸 것으로 이를 근거로 가중치를 변화한다.
@@ -26,20 +26,15 @@ def gredientFunc(x, y, weight0, weight1, dataAmount = 1, a = 0.1): # 손실함�
     global w1
     
     temp = (weight0 * x + weight1) - y # 예측값 - 실제값 | numpy array로 구성한다.
-    w0Sum = (x*temp**2).sum() # 
-    w1Sum = (temp**2).sum() # 
-    w0Result = 2 * a * w0Sum / (dataAmount) # w0, w1으로 구성된 2차원 그래프에서 각각 가지는 미분값이다.
-    w1Result = 2 * a * w1Sum / (dataAmount)
-
-    if w0 < w0Result: nP0 = -1
-    elif w0 > w0Result: nP0 = +1
-    if w1 < w1Result: nP1 = -1
-    elif w1 > w1Result: nP1 = +1
+    w0Sum = (x*temp).sum() # 
+    w1Sum = (temp).sum() # 
+    w0Result = -2 * a * w0Sum / (dataAmount) # w0, w1으로 구성된 2차원 그래프에서 각각 가지는 편미분값들이다.
+    w1Result = -2 * a * w1Sum / (dataAmount)
     
-    w0 += nP0 * a
-    w1 += nP1 * a
+    w0 += w0Result
+    w1 += w1Result
     
-    return round(w0Result, 4), round(w1Result, 4) # float, 소수점 3자리에서 반올림
+    return round(w0, 4), round(w1, 4) # float, 소수점 5자리에서 반올림
 
 def drawMatplt():
     # mt.show()
@@ -61,7 +56,11 @@ a = float(input("leaning rate: ")) # 학습률, Learning Rate
 
 # print(costFunc(dataX, dataY, w0, w1, dataXAmount)) # age, name, weight0, weight1 | numpy array
 
-while 1:
+while True:
+    
+    # mt.plot(x, )
+    
+    print(costFunc(dataX, dataY, w0, w1, dataXAmount), end=' - ') # age, name, weight0, weight1 | numpy array
     print(gredientFunc(dataX, dataY, w0, w1, dataXAmount, a))
 
 #Done
