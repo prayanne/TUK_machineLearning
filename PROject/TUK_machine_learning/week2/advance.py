@@ -4,6 +4,7 @@
 # 1. yn^ - yn
 # 2. 공식을 활용
 ############################################################
+#import module
 
 import pandas as pd
 import numpy as np
@@ -11,6 +12,7 @@ import matplotlib.pyplot as mt
 
 
 ############################################################
+#definiton funtion
 
 def preDraw(x, y, dataAmount=1): # 그래프 생성에 필요한 요소를 리턴하는 함수이다. | 요소: [데이터1, 데이터2, 데이터 수량]
     w0, w1, a = inputVal() # w0, w1, a에 값을 입력한다.
@@ -54,7 +56,10 @@ def costFunc(x, y, weight0, weight1,dataAmount=1):  # 손실함수, 평균제곱
 ############################################################
 # start
 
-data = pd.read_csv('linear_regression_data01.csv', delimiter=",", names=['age', 'tall']) # csv파일 data에 pandas series로 저장한다.
+try:
+    data = pd.read_csv('linear_regression_data01.csv', delimiter=",", names=['age', 'tall']) # csv파일 data에 pandas series로 저장한다.
+except:
+    data = pd.read_csv('/config/workspace/PROject/TUK_machine_learning/week2/linear_regression_data01.csv', delimiter=",", names=['age', 'tall'])
 
 dataX = data["age"].to_numpy() # pandas에서 age파트를 numpy 형식으로 변환하여 dataX에 저장한다.
 dataXAmount = dataX.size # age파트의 수를 추출한다.
@@ -91,4 +96,4 @@ print(w0, w1)
 mt.show() # 창 표시
 
 # Done
- # %%
+# %%
