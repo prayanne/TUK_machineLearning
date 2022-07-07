@@ -16,17 +16,19 @@ import matplotlib.pyplot as mt
 
 def preDraw(x, y, dataAmount=1): # 그래프 생성에 필요한 요소를 리턴하는 함수이다. | 요소: [데이터1, 데이터2, 데이터 수량]
     w0, w1, a = inputVal() # w0, w1, a에 값을 입력한다.
+    
     array = [] # 가중치 [w0, w1]를 150개 마다 추가받는 배열
+    
     for i in range(30001): # 30001번 반복한다.
         w0, w1 = gredientFunc(x, y, w0, w1, dataAmount, a) # 편미분 * 학습률을 반영하는 함수
         if i % 150 == 0 and i < 6001: # 150개 마다 array에 [w0, w1]를 추가한다.
             array.append([w0, w1])
+    
     array = np.array(array) # array를 numpy형식 array로 변경한다. |
     return array[:, 0], array[:, 1], w0, w1 # w0-array, w1-array, w0, w1 | 리턴
 
 
 def inputVal(): # 가중치 w0, w1, 학습률 a를 입력받고, 리턴한다.
-
     w0 = float(input("weight1: "))  # 데이터1 가중치
     w1 = float(input("weight2: "))  # 데이터2 가중치
     a = float(input("learning rate: "))  # 학습률, Learning Rate
@@ -34,12 +36,14 @@ def inputVal(): # 가중치 w0, w1, 학습률 a를 입력받고, 리턴한다.
 
 
 def gredientFunc(x, y, weight0, weight1, dataAmount=1, a=0.1):  # 평균제곱오차의 편미분구하고, 학습률을 곱해, 이전 가중치에 반영하는 함수
-
     temp = (weight0 * x + weight1) - y  # 예측값 - 실제값 | numpy array로 구성한다.
+    
     w0Sum = (x * temp).sum()  # error*실제값,x를 행렬곱한 후, sum한다.
-    w1Sum = (temp).sum()  # 평균오차만 sum한다.
     w0Result = weight0 -2 * a * w0Sum / (dataAmount)  # 평균제곱오차의 2차원 그래프의 편미분값들(w0, w1)과 학습률을 곱한다. | 이후, 이를 w0, w1에서 빼게 된다. | w0[t+1] = w0[t] - 2a*2/n * x(평균오차) 이므로, 기울기가 극소값에 빠지게 진행한다. 목표는 최솟값에 도달하는 것이다.
+
+    w1Sum = (temp).sum()  # 평균오차만 sum한다.
     w1Result = weight1 -2 * a * w1Sum / (dataAmount)  # 학습률에 도출된 음수 편미분값을 반영한다.
+    
     return round(w0Result, 4), round(w1Result, 4)  # float, 소수점 5자리에서 반올림
 
 
@@ -90,6 +94,12 @@ mt.plot(range(w1List.size), w1List, 'r--', label = 'weight2') # 이하 동문, �
 mt.xlabel('Count / 150') # x, y축에 이름을 지정한다.
 mt.ylabel('Weight1, Weight2') # 이하 동문
 mt.legend() # subplot0, 그래프들의 라벨
+
+mt.subplot(2,2,3)
+mt.plot(dataX, dataY, 'ro', markersize = 3, label = 'data')
+mt.plot(dataX, w0*dataX+w1, 'k--', label = 'Linear Regression')
+for i, n in w0List, w1List:
+    mt.plot(dataX, w0*dataX+w1, 'k--', label = 'Linear Regression')
 
 print(w0, w1)
 
