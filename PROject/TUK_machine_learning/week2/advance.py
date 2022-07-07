@@ -8,20 +8,19 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as mt
-import math
 
 
 ############################################################
 
-def preDraw(x, y, dataAmount=1):
-    w0, w1, a = inputVal()
-    array = []
-    for i in range(30001):
-        w0, w1 = gredientFunc(x, y, w0, w1, dataAmount, a)
-        if i % 150 == 0 and i < 6001:
+def preDraw(x, y, dataAmount=1): # 그래프 생성에 필요한 요소를 리턴하는 함수이다. | 요소: [데이터1, 데이터2, 데이터 수량]
+    w0, w1, a = inputVal() # w0, w1, a에 값을 입력한다.
+    array = [] # 가중치 [w0, w1]를 150개 마다 추가받는 배열
+    for i in range(30001): # 30001번 반복한다.
+        w0, w1 = gredientFunc(x, y, w0, w1, dataAmount, a) # 편미분 * 학습률을 반영하는 함수
+        if i % 150 == 0 and i < 6001: # 150개 마다 array에 [w0, w1]를 추가한다.
             array.append([w0, w1])
-    array = np.array(array)
-    return array[:, 0], array[:, 1], w0, w1
+    array = np.array(array) # array를 numpy형식 array로 변경한다. |
+    return array[:, 0], array[:, 1], w0, w1 # w0-array, w1-array, w0, w1 | 리턴
 
 
 def inputVal(): # 가중치 w0, w1, 학습률 a를 입력받고, 리턴한다.
@@ -32,7 +31,7 @@ def inputVal(): # 가중치 w0, w1, 학습률 a를 입력받고, 리턴한다.
     return w0, w1, a
 
 
-def gredientFunc(x, y, weight0, weight1, dataAmount=1, a=0.1):  # 평균제곱오차의 편미분
+def gredientFunc(x, y, weight0, weight1, dataAmount=1, a=0.1):  # 평균제곱오차의 편미분구하고, 학습률을 곱해, 이전 가중치에 반영하는 함수
 
     temp = (weight0 * x + weight1) - y  # 예측값 - 실제값 | numpy array로 구성한다.
     w0Sum = (x * temp).sum()  # error*실제값,x를 행렬곱한 후, sum한다.
@@ -46,7 +45,7 @@ def gredientFunc(x, y, weight0, weight1, dataAmount=1, a=0.1):  # 평균제곱�
 def costFunc(x, y, weight0, weight1,dataAmount=1):  # 손실함수, 평균제곱오차 | 예측값과 실제값이 얼마나 차이나는지 보여주는 함수이다. 손실함수를 통해 평균제곱오차를 도출한다.
     # 예측값 - 실제값 | 데이터1 즉, xn에서 예측값 y, 실제값 y를 비교한다. | 차이를 제곱하여 추합해, 데이터 개수로 나누고, 평균을 구한다. | 차이나는 정도를 평균으로 나타낸 것으로 이를 근거로 가중치를 변화한다.
     temp = (weight0 * x + weight1) - y  # 예측값 - 실제값 | numpy array로 구성한다.
-    arrSum = (temp ** 2).sum()  #
+    arrSum = (temp ** 2).sum()  # 평균제곱오차의 sum
 
     total = arrSum / (dataAmount)  # 평균 | dataAmount는 함수 요소로 받아온다.
     return round(total, 4)  # float, 소수점 5자리에서 반올림
@@ -83,11 +82,11 @@ mt.legend() # subplot0, 그래프들의 라벨
 mt.subplot(1,2,2) # 가중치 변화 그래프
 mt.plot(range(w0List.size), w0List, 'b--', label = 'weight1') # 반복횟수에 맞춰 변화하는 가중치0을 시각화한다.
 mt.plot(range(w1List.size), w1List, 'r--', label = 'weight2') # 이하 동문, 가중치1
-mt.xlabel('Count / 300') # x, y축에 이름을 지정한다.
-mt.ylabel('Weight1, Weight2')
+mt.xlabel('Count / 150') # x, y축에 이름을 지정한다.
+mt.ylabel('Weight1, Weight2') # 이하 동문
 mt.legend() # subplot0, 그래프들의 라벨
 
 mt.show() # 창 표시
 
 # Done
-# %%
+ # %%
