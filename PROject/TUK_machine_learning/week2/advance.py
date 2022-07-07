@@ -21,11 +21,11 @@ def preDraw(x, y, w0, w1, dataAmount=1, a = 0.001): # 그래프 생성 필수 �
     array = []
     for i in range(30001): # 30001번 반복한다.
         w0, w1 = gredientFunc(x, y, w0, w1, dataAmount, a) # w[t] -> w[t+1]
-        if i % 10 == 0 and i <= 3000:
+        if i % 10 == 0 and i <= 3000: # w0, w1 변화 리스트
             array.append([w0, w1])
     
     array = np.array(array) # numpy형식 array 변경
-    return array[:, 0], array[:, 1], w0, w1 # w0-array, w1-array, w0, w1 | 리턴
+    return array[:, 0], array[:, 1], w0, w1 # w0 -> array, w1 -> array, w0, w1 | 리턴
 
 
 def inputVal(): # 가중치 w0, w1, 학습률 a
@@ -84,12 +84,6 @@ mt.ylabel('Weight1, Weight2')
 mt.plot(range(w0List.size), w0List, 'b--', label = 'weight1') # w0
 mt.plot(range(w1List.size), w1List, 'r--', label = 'weight2') # w1
 mt.legend()
-
-# mt.subplot(2,2,3)
-# mt.plot(dataX, dataY, 'ro', markersize = 3, label = 'data')
-# mt.plot(dataX, w0*dataX+w1, 'k--', label = 'Linear Regression')
-# for i, n in w0List, w1List:
-#     mt.plot(dataX, w0*dataX+w1, 'k--', label = 'Linear Regression')
 
 print(w0, w1)
 
