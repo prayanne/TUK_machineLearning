@@ -17,7 +17,7 @@ a = 0.001
 ############################################################
 #definiton funtion
 
-def preDraw(x, y, w0, w1, dataAmount=1, a = 0.001): # 그래프 생성 필수 요소 | 요소: [데이터1, 데이터2, 데이터 수량]
+def preDraw(x, y, w0, w1, dataAmount=1, a = 0.001): # 그래프 생성 필수 요소 리턴 | 요소: [데이터1, 데이터2, 데이터 수량]
     array = []
     for i in range(30001):.
         w0, w1 = gredientFunc(x, y, w0, w1, dataAmount, a) # w[t] -> w[t+1]
