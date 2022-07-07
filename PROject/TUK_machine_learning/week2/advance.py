@@ -19,11 +19,10 @@ a = 0.001
 
 def preDraw(x, y, w0, w1, dataAmount=1, a = 0.001): # 그래프 생성 필수 요소 | 요소: [데이터1, 데이터2, 데이터 수량]
     array = []
-    for i in range(30001): # 30001번 반복한다.
+    for i in range(30001):.
         w0, w1 = gredientFunc(x, y, w0, w1, dataAmount, a) # w[t] -> w[t+1]
         if i % 10 == 0 and i <= 3000: # w0, w1 변화 리스트
             array.append([w0, w1])
-    
     array = np.array(array) # numpy형식 array 변경
     return array[:, 0], array[:, 1], w0, w1 # w0 -> array, w1 -> array, w0, w1 | 리턴
 
@@ -38,8 +37,7 @@ def inputVal(): # 가중치 w0, w1, 학습률 a
 def gredientFunc(x, y, weight0, weight1, dataAmount=1, a=0.1):  # 평균제곱오차의 편미분 * 학습률 -> 이전 가중치 반영
     deviation = (weight0 * x + weight1) - y  # 예측값 - 실제값
     w0Result = weight0 -2*a*sum(x*deviation)/(dataAmount)   # 학습률 * 음수 편미분 -> 반영
-    w1Result = weight1 -2*a*sum(deviation)/(dataAmount) 
-    
+    w1Result = weight1 -2*a*sum(deviation)/(dataAmount)  
     return round(w0Result, 4), round(w1Result, 4)  # float, 4
 
 
