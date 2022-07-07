@@ -31,7 +31,7 @@ def compareWeight(count):
 
     temp = []
     for i in range(count):
-    temp.attend([i][0])
+    temp.append([i][0])
     temp.sort()
     for i in range(count - 1):
         while infoList[i] < infoList[i + 1]:

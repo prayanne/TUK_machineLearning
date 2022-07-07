@@ -1,3 +1,4 @@
+#%%
 ############################################################
 # 예측값 yn과 실제값(데이터) yn을 비교하는 구조이다.
 # 1. yn^ - yn
@@ -6,7 +7,7 @@
 
 import pandas as pd
 import numpy as np
-import matplotlib as mt
+import matplotlib.pyplot as mt
 import math
 
 ############################################################
@@ -28,7 +29,7 @@ def gredientFunc(x, y, weight0, weight1, dataAmount = 1, a = 0.1): # 손실함�
     temp = (weight0 * x + weight1) - y # 예측값 - 실제값 | numpy array로 구성한다.
     w0Sum = (x*temp).sum() # 
     w1Sum = (temp).sum() # 
-    w0Result = -2 * a * w0Sum / (dataAmount) # w0, w1으로 구성된 2차원 그래프에서 각각 가지는 편미분값들이다.
+    w0Result = -2 * a * w0Sum / (dataAmount) # 평균제곱오차의 2차원 그래프의 편미분값들(w0, w1)과 학습률을 곱한다. | 이후, 이를 w0, w1에서 빼게 된다. | w0[t+1] = w0[t] - 2a*2/n * x(평균오차) 이므로, 기울기의 
     w1Result = -2 * a * w1Sum / (dataAmount)
     
     w0 += w0Result
@@ -56,11 +57,14 @@ a = float(input("leaning rate: ")) # 학습률, Learning Rate
 
 # print(costFunc(dataX, dataY, w0, w1, dataXAmount)) # age, name, weight0, weight1 | numpy array
 
-while True:
+for i in range(20000):
     
     # mt.plot(x, )
     
     print(costFunc(dataX, dataY, w0, w1, dataXAmount), end=' - ') # age, name, weight0, weight1 | numpy array
     print(gredientFunc(dataX, dataY, w0, w1, dataXAmount, a))
-
+    
+mt.plot(dataX, dataY, 'ro')
+mt.show()
 #Done
+# %%
