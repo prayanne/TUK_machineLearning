@@ -86,6 +86,8 @@ mt.xlabel('Count / 150') # x, y축에 이름을 지정한다.
 mt.ylabel('Weight1, Weight2') # 이하 동문
 mt.legend() # subplot0, 그래프들의 라벨
 
+print(w0, w1)
+
 mt.show() # 창 표시
 
 # Done
